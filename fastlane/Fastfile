@@ -1,0 +1,60 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+
+default_platform(:ios)
+
+platform :ios do
+ desc "Description of what the lane does"
+ lane :codesigning do |options|
+   create_keychain(
+   name: "MyKeychain",
+   default_keychain: true,
+   unlock: true,
+   timeout: 3600,
+   lock_when_sleeps: true,
+   password: options[:keychain_password]
+ )
+
+ install_provisioning_profile(path: "ADhoc2.mobileprovision")
+
+ import_certificate(
+     keychain_name: "MyKeychain",
+ 	 certificate_path: "DemoActionCert.p12",
+     keychain_password: options[:keychain_password],
+     certificate_password: options[:certificate_password]
+   )
+
+ end
+
+ lane :buildApp do
+ 	gym(
+       scheme: "DemoAction",
+       project: "DemoAction.xcodeproj",
+       export_method: 'ad-hoc',
+       clean: true
+   )
+ end
+ 
+ lane :distribute do |options|
+       firebase_app_distribution(
+           app: options[:app_id],
+           firebase_cli_token: options[:token],
+           release_notes: "Demo",
+           firebase_cli_path: `which firebase`.strip()
+       )
+
+   end
+end
