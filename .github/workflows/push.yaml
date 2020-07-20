@@ -11,36 +11,5 @@ jobs:
 
         # - name: CocoaPod Install
         #   run: pod install
-        - name: Decrypt Provisioning
-          run:  |
-            echo "${{ secrets.PROVISIONING }}" > Adhoc2.mobileprovision.txt
-            base64 --decode Adhoc2.mobileprovision.txt > Adhoc2.mobileprovision
-
-        - name: Decrypt Certificate
-          run: |
-            echo "${{ secrets.CERTIFICATE }}" > DemoActionCert.p12.txt
-            base64 --decode DemoActionCert.p12.txt > DemoActionCert.p12
-
-        - name: Provisioning profile
-          run: fastlane codesigning keychain_password:${{ secrets.KEYCHAIN_PWD }} certificate_password:${{ secrets.PWD_P12 }}
-          
-        - name: Decrypt GoogleService Dev
-          run:  |
-            echo "${{ secrets.GOOGLE_SERVICE_DEV }}" > GoogleService-Info.plist.txt
-            base64 --decode GoogleService-Info.plist.txt > GoogleService-Info.plist
-            echo GoogleService-Info.plist > ./DemoAction/GoogleServices/Dev/GoogleService-Info.plist
-        - name: Decrypt GoogleService Staging
-          run: |
-            echo "${{ secrets.GOOGLE_SERVICE_STAGING }}" > GoogleService-Info.plist.txt
-            base64 --decode GoogleService-Info.plist.txt > GoogleService-Info.plist
-            echo GoogleService-Info.plist > ./DemoAction/GoogleServices/Staging/GoogleService-Info.plist
-        - name: Decrypt GoogleService Prod
-          run: |
-            echo "${{ secrets.GOOGLE_SERVICE_PROD }}" > GoogleService-Info.plist.txt
-            base64 --decode GoogleService-Info.plist.txt > GoogleService-Info.plist
-            echo GoogleService-Info.plist > ./DemoAction/GoogleServices/Production/GoogleService-Info.plist
-        - name: Compile
-          run: xcodebuild build -project DemoAction.xcodeproj -scheme DemoAction_Dev
-#
-#        - name: run test
-#          run: fastlane tests
+        - name: run test
+          run: fastlane tests
