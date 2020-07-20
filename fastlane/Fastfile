@@ -41,7 +41,7 @@ platform :ios do
 
  lane :buildApp do
  	gym(
-       scheme: "DemoAction",
+       scheme: "DemoAction_Dev",
        project: "DemoAction.xcodeproj",
        export_method: 'ad-hoc',
        clean: true
