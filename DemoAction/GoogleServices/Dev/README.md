@@ -1,2 +1,0 @@
-# DEV
-GoogleService-Info.plist
