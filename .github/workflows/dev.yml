@@ -15,8 +15,8 @@ jobs:
 
         # - name: CocoaPod Install
         #   run: pod install
-#        - name: Install FirebaseCLI
-#          run: npm install -g firebase-tools
+        - name: Install FirebaseCLI
+          run: npm install -g firebase-tools
 
         - name: Decrypt Provisioning
           run:  |
